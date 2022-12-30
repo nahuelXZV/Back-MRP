@@ -1,4 +1,4 @@
-const { addUserSchema,  editUserSchema,  getUserSchema} = require('./userSchema');
+const { addUserSchema, editUserSchema, getUserSchema } = require('./userSchema');
 const { checkRoles } = require('../../middleware/roleHandler');
 const validatorHandler = require('../../middleware/validatorHandler');
 const response = require('../../network/response');
@@ -75,7 +75,7 @@ router.put(
 router.delete(
   '/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('admin'),
+  checkRoles('administrador'),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     const { id } = req.params;

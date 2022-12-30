@@ -2,17 +2,18 @@ const response = require("../network/response");
 const { ValidationError } = require('sequelize');
 
 function logError(err, req, res, next) {  // Log error in console
-  console.error(err);
+  // console.error(err);
   next(err);
 }
 
 function ormErrorHandler(err, req, res, next) { // Send error to client
   if (err instanceof ValidationError) { // Validation error
-    res.status(409).json({
-      statusCode: 409,
-      message: err.name,
-      errors: err.errors,
-    });
+    response.error(req, res, err.parent.detail, 409, err);
+    // res.status(409).json({
+    // statusCode: 409,
+    // message: err.parent.detail,
+    // errors: err.errors,
+    // });
   }
   next(err);
 }

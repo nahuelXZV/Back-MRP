@@ -1,23 +1,17 @@
 const boom = require('@hapi/boom');
-
-/* function checkAdminRole(req, res, next) {
-  const user = req.user;
-  if (user.role === 'admin') {
-    next();
-  } else {
-    next(boom.unauthorized());
-  }
-} */
+const { models } = require('../libs/sequelize');
 
 function checkRoles(...roles) {
   return (req, res, next) => {
-    const user = req.user;
-    if (roles.includes(user.role)) {
-      next();
-    } else {
-      next(boom.unauthorized());
-    }
-  };
+    const { id } = req.params;
+    models.User.findByPk(id).then((user) => {
+      if (roles.includes(user.role)) {
+        next();
+      } else {
+        next(boom.unauthorized());
+      }
+    });
+  }
 }
 
 module.exports = { checkRoles };

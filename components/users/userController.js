@@ -3,7 +3,7 @@ const boom = require('@hapi/boom');
 const { comparePassword, hashPassword } = require('../../libs/utils/bcrypt');
 
 class UserController {
-  constructor() {}
+  constructor() { }
 
   async add(data) {
     const hash = await hashPassword(data.password);
@@ -17,11 +17,13 @@ class UserController {
   }
 
   async edit(data, id) {
-    const hash = await hashPassword(data.password);
+    if (data.password) {
+      const hash = await hashPassword(data.password);
+      data.password = hash;
+    }
     const user = await this.find(id);
     const UserUpdated = await user.update({
       ...data,
-      password: hash,
     });
     delete UserUpdated.dataValues.password;
     delete UserUpdated.dataValues.recoveryToken;
