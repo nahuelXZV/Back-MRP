@@ -3,17 +3,35 @@ const { Cargo, CargoSchema } = require('./cargoModel');
 const { Empleado, EmpleadoSchema } = require('./empleadoModel');
 const { Bitacora, BitacoraSchema } = require('./bitacoraModel');
 
+const { Cliente, ClienteSchema } = require('./clienteModel');
+const { Producto, ProductoSchema } = require('./productoModel');
+const { Pedido, PedidoSchema } = require('./pedidoModel');
+const { Detalle_venta, Detalle_ventaSchema } = require('./detalle_ventaModel');
+const { Stock_diario, Stock_diarioSchema } = require('./stock_diarioModel');
+
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
   Cargo.init(CargoSchema, Cargo.config(sequelize));
   Empleado.init(EmpleadoSchema, Empleado.config(sequelize));
   Bitacora.init(BitacoraSchema, Bitacora.config(sequelize));
 
+  Cliente.init(ClienteSchema, Cliente.config(sequelize));
+  Producto.init(ProductoSchema, Producto.config(sequelize));
+  Pedido.init(PedidoSchema, Pedido.config(sequelize));
+  Detalle_venta.init(Detalle_ventaSchema, Detalle_venta.config(sequelize));
+  Stock_diario.init(Stock_diarioSchema, Stock_diario.config(sequelize));
+
   // Associations
   User.associate(sequelize.models);
   Cargo.associate(sequelize.models);
   Empleado.associate(sequelize.models);
   Bitacora.associate(sequelize.models);
+
+  Cliente.associate(sequelize.models);
+  Producto.associate(sequelize.models);
+  Pedido.associate(sequelize.models);
+  Detalle_venta.associate(sequelize.models);
+  Stock_diario.associate(sequelize.models);
 
 }
 
