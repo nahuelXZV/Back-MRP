@@ -1,4 +1,4 @@
-const AuthController = require('../../../components/auth/authController');
+const AuthController = require('../../../components/usuario/auth/authController');
 const { Strategy } = require('passport-local');
 
 const controller = new AuthController();

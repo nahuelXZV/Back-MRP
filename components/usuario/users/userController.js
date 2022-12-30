@@ -1,6 +1,6 @@
-const { models } = require('../../libs/sequelize');
+const { models } = require('../../../libs/sequelize');
 const boom = require('@hapi/boom');
-const { comparePassword, hashPassword } = require('../../libs/utils/bcrypt');
+const { comparePassword, hashPassword } = require('../../../libs/utils/bcrypt');
 
 class UserController {
   constructor() { }
@@ -10,6 +10,7 @@ class UserController {
     const newUser = await models.User.create({
       ...data,
       password: hash,
+      createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
     });
     delete newUser.dataValues.password;
     delete newUser.dataValues.recoveryToken;

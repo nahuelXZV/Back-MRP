@@ -1,17 +1,18 @@
 const { addUserSchema, editUserSchema, getUserSchema } = require('./userSchema');
-const { checkRoles } = require('../../middleware/roleHandler');
-const validatorHandler = require('../../middleware/validatorHandler');
-const response = require('../../network/response');
+const { checkRoles } = require('../../../middleware/roleHandler');
+const validatorHandler = require('../../../middleware/validatorHandler');
+const response = require('../../../network/response');
 const UserController = require('./userController');
 const express = require('express');
 const passport = require('passport');
+const addBitacora = require('../../../libs/bitacora');
 
 const router = express.Router();
 const controller = new UserController();
 
-router.get(
-  '/',
+router.get('/',
   passport.authenticate('jwt', { session: false }), // Middleware de autenticación
+  checkRoles('administrador'),
   async (req, res, next) => {
     try {
       const users = await controller.getAll();
@@ -22,9 +23,9 @@ router.get(
   }
 );
 
-router.get(
-  '/:id',
+router.get('/:id',
   passport.authenticate('jwt', { session: false }), // Middleware de autenticación
+  checkRoles('administrador'),
   validatorHandler(getUserSchema, 'params'), // Middleware de validación
   async (req, res, next) => {
     const { id } = req.params; //used for getting the parameter
@@ -39,8 +40,7 @@ router.get(
   }
 );
 
-router.post(
-  '/',
+router.post('/',
   validatorHandler(addUserSchema, 'body'),
   async (req, res, next) => {
     try {
@@ -53,17 +53,17 @@ router.post(
   }
 );
 
-router.put(
-  '/:id',
+router.put('/:id',
   passport.authenticate('jwt', { session: false }),
+  checkRoles('administrador'),
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(editUserSchema, 'body'),
   async (req, res, next) => {
     const { id } = req.params;
     const body = req.body; //used for getting the body
-    await controller
-      .edit(body, id)
+    await controller.edit(body, id)
       .then((data) => {
+        addBitacora(req.headers.authorization.split(' ')[1], 'usuario', id, 'Edición de usuario');
         response.success(req, res, data, 201);
       })
       .catch((err) => {
@@ -72,8 +72,7 @@ router.put(
   }
 );
 
-router.delete(
-  '/:id',
+router.delete('/:id',
   passport.authenticate('jwt', { session: false }),
   checkRoles('administrador'),
   validatorHandler(getUserSchema, 'params'),
@@ -82,6 +81,7 @@ router.delete(
     await controller
       .delete(id)
       .then((data) => {
+        addBitacora(req.headers.authorization.split(' ')[1], 'usuario', id, 'Eliminación de usuario');
         response.success(req, res, data, 201);
       })
       .catch((err) => {

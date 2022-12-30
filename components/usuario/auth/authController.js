@@ -1,9 +1,9 @@
 const UserController = require('../users/userController');
-const config = require('../../config/config');
+const config = require('../../../config/config');
 const boom = require('@hapi/boom');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { comparePassword, hashPassword } = require('../../libs/utils/bcrypt');
+const { comparePassword, hashPassword } = require('../../../libs/utils/bcrypt');
 
 const controller = new UserController();
 
@@ -13,7 +13,6 @@ class AuthController {
     if (!user) {
       throw boom.unauthorized();
     }
-    console.log(user);
     const isMatch = await comparePassword(password, user.password); // compare password with hash
     if (!isMatch) {
       throw boom.unauthorized();

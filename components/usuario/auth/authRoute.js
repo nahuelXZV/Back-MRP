@@ -1,5 +1,5 @@
-const validatorHandler = require('../../middleware/validatorHandler');
-const response = require('../../network/response');
+const validatorHandler = require('../../../middleware/validatorHandler');
+const response = require('../../../network/response');
 const AuthController = require('./authController');
 const { loginSchema } = require('./authSchema');
 const express = require('express');
@@ -8,8 +8,7 @@ const passport = require('passport');
 const router = express.Router();
 const controller = new AuthController();
 
-router.post(
-  '/login',
+router.post('/login',
   validatorHandler(loginSchema, 'body'), // validate body
   passport.authenticate('local', { session: false }), // passport authenticate
   async (req, res, next) => {

@@ -1,32 +1,21 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
 
-const USER_TABLE = 'user';
+const CARGO_TABLE = 'cargo';
 
-const UserSchema = {
+const CargoSchema = {
   id: {
     allowNull: false, // not null
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  email: {
+  nombre: {
     allowNull: false,
     type: DataTypes.STRING,
-    unique: true,
   },
-  password: {
+  sueldo: {
     allowNull: false,
-    type: DataTypes.STRING
-  },
-  recoveryToken: {
-    allowNull: true,
-    type: DataTypes.STRING,
-    field: 'recovery_token'
-  },
-  role: {
-    allowNull: false,
-    type: DataTypes.STRING,
-    defaultValue: 'public',
+    type: DataTypes.INTEGER,
   },
   createdAt: {
     allowNull: false,
@@ -35,20 +24,25 @@ const UserSchema = {
   }
 }
 
-class User extends Model {
+class Cargo extends Model {
   static associate(models) {
+
     // associations can be defined here
+    this.hasMany(models.Empleado, {
+      as: 'empleados',
+      foreignKey: 'cargoId',
+    });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: USER_TABLE,
-      modelName: 'User',
+      tableName: CARGO_TABLE,
+      modelName: 'Cargo',
       timestamps: false
     }
   }
 }
 
 
-module.exports = { USER_TABLE, UserSchema, User }
+module.exports = { CARGO_TABLE, CargoSchema, Cargo }

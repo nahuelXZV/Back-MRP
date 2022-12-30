@@ -9,11 +9,6 @@ function logError(err, req, res, next) {  // Log error in console
 function ormErrorHandler(err, req, res, next) { // Send error to client
   if (err instanceof ValidationError) { // Validation error
     response.error(req, res, err.parent.detail, 409, err);
-    // res.status(409).json({
-    // statusCode: 409,
-    // message: err.parent.detail,
-    // errors: err.errors,
-    // });
   }
   next(err);
 }
