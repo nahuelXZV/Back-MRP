@@ -1,8 +1,9 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { PRODUCTO_TABLE } = require('./productoModel');
 
-const PRODUCTO_TABLE = 'producto';
+const RECETA_TABLE = 'receta';
 
-const ProductoSchema = {
+const RecetaSchema = {
   id: {
     allowNull: false, // not null
     autoIncrement: true,
@@ -15,11 +16,16 @@ const ProductoSchema = {
   },
   descripcion: {
     allowNull: false,
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
   },
-  precio: {
+  productoId: {
     allowNull: false,
-    type: DataTypes.DECIMAL(10, 2)
+    type: DataTypes.INTEGER,
+    field: 'producto_id',
+    references: {
+      model: PRODUCTO_TABLE,
+      key: 'id',
+    }
   },
   createdAt: {
     allowNull: false,
@@ -28,23 +34,23 @@ const ProductoSchema = {
   }
 }
 
-class Producto extends Model {
+class Receta extends Model {
   static associate(models) {
-    this.hasOne(models.Receta, {
+    this.belongsTo(models.Producto, {
       foreignKey: 'productoId',
-      as: 'receta',
+      as: 'producto',
     });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: PRODUCTO_TABLE,
-      modelName: 'Producto',
+      tableName: RECETA_TABLE,
+      modelName: 'Receta',
       timestamps: false
     }
   }
 }
 
 
-module.exports = { PRODUCTO_TABLE, ProductoSchema, Producto }
+module.exports = { RECETA_TABLE, RecetaSchema, Receta }

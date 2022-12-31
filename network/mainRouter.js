@@ -16,6 +16,10 @@ const proveedorRouter = require('../components/inventario/proveedor/proveedorRou
 const materia_primaRouter = require('../components/inventario/materia_prima/materia_primaRoute');
 const compraRoter = require('../components/inventario/compra/compraRoute');
 
+const recetaRouter = require('../components/produccion/receta/recetaRoute');
+const procesoRouter = require('../components/produccion/proceso/procesoRoute');
+const maquinaRouter = require('../components/produccion/maquina/maquinaRoute');
+
 const express = require('express');
 
 function mainRouter(app) {
@@ -39,6 +43,10 @@ function mainRouter(app) {
   router.use('/proveedor', proveedorRouter);  //use the proveedorRouter
   router.use('/materia_prima', materia_primaRouter);  //use the materia_primaRouter
   router.use('/compra', compraRoter);  //use the compraRoter
+
+  router.use('/receta', recetaRouter);  //use the recetaRouter
+  router.use('/proceso', procesoRouter);  //use the procesoRouter
+  router.use('/maquina', maquinaRouter);  //use the maquinaRouter
 }
 
 module.exports = mainRouter;

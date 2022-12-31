@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { PEDIDO_TABLE } = require('./pedidoModel');
 const { PRODUCTO_TABLE } = require('./productoModel');
+const { VENTA_TABLE } = require('./ventaModel');
 
 const DETALLE_VENTA_TABLE = 'detalle_venta';
 
@@ -19,12 +19,12 @@ const Detalle_ventaSchema = {
     allowNull: false,
     type: DataTypes.DECIMAL(10, 2),
   },
-  pedidoId: {
+  ventaId: {
     allowNull: false,
     type: DataTypes.INTEGER,
-    field: 'pedido_id',
+    field: 'venta_id',
     references: {
-      model: PEDIDO_TABLE,
+      model: VENTA_TABLE,
       key: 'id',
     },
     onUpdate: 'CASCADE',
@@ -46,6 +46,14 @@ const Detalle_ventaSchema = {
 class Detalle_venta extends Model {
   static associate(models) {
     // associations can be defined here
+    this.belongsTo(models.Producto, {
+      foreignKey: 'productoId',
+      as: 'producto',
+    });
+    this.belongsTo(models.Venta, {
+      foreignKey: 'ventaId',
+      as: 'venta',
+    });
   }
 
   static config(sequelize) {

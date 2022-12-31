@@ -2,30 +2,32 @@ const { Model, DataTypes, Sequelize } = require('sequelize');
 const { EMPLEADO_TABLE } = require('./empleadoModel');
 const { CLIENTE_TABLE } = require('./clienteModel');
 
-const PEDIDO_TABLE = 'pedido';
+const VENTA_TABLE = 'venta';
 
-const PedidoSchema = {
+const VentaSchema = {
   id: {
     allowNull: false, // not null
     autoIncrement: true,
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  descripcion: {
+  detalles: {
     allowNull: false,
     type: DataTypes.STRING,
   },
   fechaEntrega: {
     allowNull: false,
     type: DataTypes.STRING,
+    field: 'fecha_entrega',
   },
   fechaPedido: {
     allowNull: false,
     type: DataTypes.STRING,
+    field: 'fecha_pedido',
   },
   total: {
     allowNull: false,
-    type: DataTypes.DECIMAL(10, 2)
+    type: DataTypes.DECIMAL(10, 2),
   },
   empleadoId: {
     allowNull: false,
@@ -56,14 +58,8 @@ const PedidoSchema = {
   }
 }
 
-class Pedido extends Model {
+class Venta extends Model {
   static associate(models) {
-    // this.belongsToMany(models.Producto, {
-    //   as: 'productos',
-    //   through: models.Detalle_venta,
-    //   foreignKey: 'pedidoId',
-    //   otherKey: 'productoId',
-    // });
     this.belongsTo(models.Empleado, {
       foreignKey: 'empleadoId',
       as: 'empleado',
@@ -77,12 +73,12 @@ class Pedido extends Model {
   static config(sequelize) {
     return {
       sequelize,
-      tableName: PEDIDO_TABLE,
-      modelName: 'Pedido',
-      timestamps: false,
+      tableName: VENTA_TABLE,
+      modelName: 'Venta',
+      timestamps: false
     }
   }
 }
 
 
-module.exports = { PEDIDO_TABLE, PedidoSchema, Pedido }
+module.exports = { VENTA_TABLE, VentaSchema, Venta }

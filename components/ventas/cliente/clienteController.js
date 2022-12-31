@@ -37,12 +37,31 @@ class ClienteController {
     if (!cliente) {
       throw boom.notFound('Cliente no encontrado');
     }
-    return cliente;
+    const pedidos = await models.Venta.findAll({ where: { clienteId: id } });
+    let ventas = [];
+    for (let i = 0; i < pedidos.length; i++) {
+      const productos = await models.Detalle_venta.findAll({ where: { ventaId: pedidos[i].id }, include: ['producto'] });
+      ventas.push({ ...pedidos[i].dataValues, productos });
+    }
+    return {
+      ...cliente.dataValues,
+      ventas
+    };
   }
 
   async getAll() {
     const clientes = await models.Cliente.findAll();
-    return clientes;
+    let response = [];
+    for (let i = 0; i < clientes.length; i++) {
+      const pedidos = await models.Venta.findAll({ where: { clienteId: clientes[i].id } });
+      let ventas = [];
+      for (let j = 0; j < pedidos.length; j++) {
+        const productos = await models.Detalle_venta.findAll({ where: { ventaId: pedidos[j].id }, include: ['producto'] });
+        ventas.push({ ...pedidos[j].dataValues, productos });
+      }
+      response.push({ ...clientes[i].dataValues, ventas });
+    }
+    return response;
   }
 }
 

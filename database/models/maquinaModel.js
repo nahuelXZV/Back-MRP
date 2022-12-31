@@ -1,8 +1,9 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
+const { PROCESO_TABLE } = require('./procesoModel');
 
-const CLIENTE_TABLE = 'cliente';
+const MAQUINA_TABLE = 'maquina';
 
-const ClienteSchema = {
+const MaquinaSchema = {
   id: {
     allowNull: false, // not null
     autoIncrement: true,
@@ -13,21 +14,22 @@ const ClienteSchema = {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  apellido: {
+  estado: {
     allowNull: false,
     type: DataTypes.STRING,
   },
-  ci: {
+  capacidad: {
     allowNull: false,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
   },
-  direccion: {
+  procesoId: {
     allowNull: false,
-    type: DataTypes.STRING
-  },
-  telefono: {
-    allowNull: false,
-    type: DataTypes.INTEGER
+    type: DataTypes.INTEGER,
+    field: 'proceso_id',
+    references: {
+      model: PROCESO_TABLE,
+      key: 'id',
+    }
   },
   createdAt: {
     allowNull: false,
@@ -36,19 +38,23 @@ const ClienteSchema = {
   }
 }
 
-class Cliente extends Model {
+class Maquina extends Model {
   static associate(models) {
+    this.belongsTo(models.Proceso, {
+      foreignKey: 'procesoId',
+      as: 'proceso',
+    });
   }
 
   static config(sequelize) {
     return {
       sequelize,
-      tableName: CLIENTE_TABLE,
-      modelName: 'Cliente',
+      tableName: MAQUINA_TABLE,
+      modelName: 'Maquina',
       timestamps: false
     }
   }
 }
 
 
-module.exports = { CLIENTE_TABLE, ClienteSchema, Cliente }
+module.exports = { MAQUINA_TABLE, MaquinaSchema, Maquina }

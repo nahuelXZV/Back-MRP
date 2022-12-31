@@ -5,7 +5,7 @@ const { Bitacora, BitacoraSchema } = require('./bitacoraModel');
 
 const { Cliente, ClienteSchema } = require('./clienteModel');
 const { Producto, ProductoSchema } = require('./productoModel');
-const { Pedido, PedidoSchema } = require('./pedidoModel');
+const { Venta, VentaSchema } = require('./ventaModel');
 const { Detalle_venta, Detalle_ventaSchema } = require('./detalle_ventaModel');
 const { Stock_diario, Stock_diarioSchema } = require('./stock_diarioModel');
 
@@ -17,6 +17,14 @@ const { Sector, SectorSchema } = require('./sectorModel');
 const { Unidad_medida, Unidad_medidaSchema } = require('./unidad_medidaModel');
 const { Materia_prima, Materia_primaSchema } = require('./materia_primaModel');
 
+const { Receta, RecetaSchema } = require('./recetaModel');
+const { Ingredientes, IngredientesSchema } = require('./ingredientesModel');
+const { Producto_proceso, Producto_procesoSchema } = require('./producto_procesoModel');
+const { Proceso, ProcesoSchema } = require('./procesoModel');
+const { Maquina, MaquinaSchema } = require('./maquinaModel');
+const { Empleado_proceso, Empleado_procesoSchema } = require('./empleado_procesoModel');
+const { Empleado_maquina, Empleado_maquinaSchema } = require('./empleado_maquinaModel');
+
 function setupModels(sequelize) {
   User.init(UserSchema, User.config(sequelize));
   Cargo.init(CargoSchema, Cargo.config(sequelize));
@@ -25,7 +33,7 @@ function setupModels(sequelize) {
 
   Cliente.init(ClienteSchema, Cliente.config(sequelize));
   Producto.init(ProductoSchema, Producto.config(sequelize));
-  Pedido.init(PedidoSchema, Pedido.config(sequelize));
+  Venta.init(VentaSchema, Venta.config(sequelize));
   Detalle_venta.init(Detalle_ventaSchema, Detalle_venta.config(sequelize));
   Stock_diario.init(Stock_diarioSchema, Stock_diario.config(sequelize));
 
@@ -37,6 +45,13 @@ function setupModels(sequelize) {
   Compra.init(CompraSchema, Compra.config(sequelize));
   Detalle_compra.init(Detalle_compraSchema, Detalle_compra.config(sequelize));
 
+  Receta.init(RecetaSchema, Receta.config(sequelize));
+  Ingredientes.init(IngredientesSchema, Ingredientes.config(sequelize));
+  Producto_proceso.init(Producto_procesoSchema, Producto_proceso.config(sequelize));
+  Proceso.init(ProcesoSchema, Proceso.config(sequelize));
+  Maquina.init(MaquinaSchema, Maquina.config(sequelize));
+  Empleado_proceso.init(Empleado_procesoSchema, Empleado_proceso.config(sequelize));
+  Empleado_maquina.init(Empleado_maquinaSchema, Empleado_maquina.config(sequelize));
 
 
   // Associations
@@ -49,7 +64,7 @@ function setupModels(sequelize) {
   Producto.associate(sequelize.models);
   Detalle_venta.associate(sequelize.models);
   Stock_diario.associate(sequelize.models);
-  Pedido.associate(sequelize.models);
+  Venta.associate(sequelize.models);
 
   Detalle_compra.associate(sequelize.models);
   Almacen.associate(sequelize.models);
@@ -59,6 +74,13 @@ function setupModels(sequelize) {
   Materia_prima.associate(sequelize.models);
   Proveedor.associate(sequelize.models);
 
+  Receta.associate(sequelize.models);
+  Ingredientes.associate(sequelize.models);
+  Producto_proceso.associate(sequelize.models);
+  Proceso.associate(sequelize.models);
+  Maquina.associate(sequelize.models);
+  Empleado_proceso.associate(sequelize.models);
+  Empleado_maquina.associate(sequelize.models);
 }
 
 module.exports = setupModels;
