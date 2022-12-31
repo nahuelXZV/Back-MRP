@@ -1,6 +1,6 @@
 const { Model, DataTypes, Sequelize } = require('sequelize');
-const { CLIENTE_TABLE } = require('./clienteModel');
 const { EMPLEADO_TABLE } = require('./empleadoModel');
+const { CLIENTE_TABLE } = require('./clienteModel');
 
 const PEDIDO_TABLE = 'pedido';
 
@@ -11,7 +11,7 @@ const PedidoSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
-  detalle: {
+  descripcion: {
     allowNull: false,
     type: DataTypes.STRING,
   },
@@ -58,12 +58,12 @@ const PedidoSchema = {
 
 class Pedido extends Model {
   static associate(models) {
-    this.belongsToMany(models.Producto, {
-      as: 'productos',
-      through: models.Detalle_venta,
-      foreignKey: 'pedidoId',
-      otherKey: 'productoId',
-    });
+    // this.belongsToMany(models.Producto, {
+    //   as: 'productos',
+    //   through: models.Detalle_venta,
+    //   foreignKey: 'pedidoId',
+    //   otherKey: 'productoId',
+    // });
     this.belongsTo(models.Empleado, {
       foreignKey: 'empleadoId',
       as: 'empleado',

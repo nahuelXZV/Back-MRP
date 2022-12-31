@@ -12,6 +12,7 @@ const { DETALLE_VENTA_TABLE, Detalle_ventaSchema } = require('../models/detalle_
 const { STOCK_DIARIO_TABLE, Stock_diarioSchema } = require('../models/stock_diarioModel');
 
 
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(USER_TABLE, UserSchema);
@@ -39,8 +40,6 @@ module.exports = {
     await queryInterface.dropTable(EMPLEADO_TABLE);
     await queryInterface.dropTable(CARGO_TABLE);
     await queryInterface.dropTable(USER_TABLE);
-
-
     // Add others migrations here
   }
 };

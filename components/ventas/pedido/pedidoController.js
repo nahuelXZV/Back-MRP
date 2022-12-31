@@ -77,10 +77,7 @@ class ProductoController {
   }
 
   async getAll() {
-    const pedidos = await models.Pedido.findAll({
-      attributes: ['id', 'fechaPedido', 'fechaEntrega', 'detalle', 'total', 'createdAt', 'empleadoId', 'clienteId', 'createdAt'],
-      // include: ['empleado', 'cliente'],
-    });
+    const pedidos = await models.Pedido.findAll();
     return pedidos;
   }
 }
