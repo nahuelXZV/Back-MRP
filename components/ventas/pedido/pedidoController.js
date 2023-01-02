@@ -21,11 +21,13 @@ class ProductoController {
       ...data,
       createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
     });
-    for (let i = 0; i < data.productos.length; i++) {
-      await models.Detalle_venta.create({
-        ...data.productos[i],
-        ventaId: newPedido.id
-      });
+    if (data.productos != null) {
+      for (let i = 0; i < data.productos.length; i++) {
+        await models.Detalle_venta.create({
+          ...data.productos[i],
+          ventaId: newPedido.id
+        });
+      }
     }
     return newPedido;
   }
@@ -42,11 +44,13 @@ class ProductoController {
     for (let i = 0; i < detalles.length; i++) {
       await detalles[i].destroy();
     }
-    for (let i = 0; i < data.productos.length; i++) {
-      await models.Detalle_venta.create({
-        ...data.productos[i],
-        ventaId: pedido.id
-      });
+    if (data.productos != null) {
+      for (let i = 0; i < data.productos.length; i++) {
+        await models.Detalle_venta.create({
+          ...data.productos[i],
+          ventaId: pedido.id
+        });
+      }
     }
     return pedidoUpdated;
   }

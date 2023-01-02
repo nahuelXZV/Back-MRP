@@ -16,17 +16,21 @@ class ProcesoController {
       ...data,
       createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
     });
-    for (let i = 0; i < data.empleados.length; i++) {
-      await models.Empleado_proceso.create({
-        ...data.empleados[i],
-        procesoId: newProceso.id,
-      });
+    if (data.empleados != null) {
+      for (let i = 0; i < data.empleados.length; i++) {
+        await models.Empleado_proceso.create({
+          ...data.empleados[i],
+          procesoId: newProceso.id,
+        });
+      }
     }
-    for (let i = 0; i < data.productos.length; i++) {
-      await models.Producto_proceso.create({
-        ...data.productos[i],
-        procesoId: newProceso.id,
-      });
+    if (data.productos != null) {
+      for (let i = 0; i < data.productos.length; i++) {
+        await models.Producto_proceso.create({
+          ...data.productos[i],
+          procesoId: newProceso.id,
+        });
+      }
     }
     return newProceso;
   }
@@ -44,22 +48,25 @@ class ProcesoController {
     for (let i = 0; i < empleados.length; i++) {
       await empleados[i].destroy();
     }
-    for (let i = 0; i < data.empleados.length; i++) {
-      await models.Empleado_proceso.create({
-        ...data.empleados[i],
-        procesoId: id,
-      });
+    if (data.empleados != null) {
+      for (let i = 0; i < data.empleados.length; i++) {
+        await models.Empleado_proceso.create({
+          ...data.empleados[i],
+          procesoId: id,
+        });
+      }
     }
-
     const productos = await models.Producto_proceso.findAll({ where: { procesoId: id } });
     for (let i = 0; i < productos.length; i++) {
       await productos[i].destroy();
     }
-    for (let i = 0; i < data.productos.length; i++) {
-      await models.Producto_proceso.create({
-        ...data.productos[i],
-        procesoId: id,
-      });
+    if (data.productos != null) {
+      for (let i = 0; i < data.productos.length; i++) {
+        await models.Producto_proceso.create({
+          ...data.productos[i],
+          procesoId: id,
+        });
+      }
     }
     return ProcesoUpdated;
   }

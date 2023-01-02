@@ -15,11 +15,13 @@ class MaquinaController {
       ...data,
       createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
     });
-    for (let i = 0; i < data.empleados.length; i++) {
-      await models.Empleado_maquina.create({
-        ...data.empleados[i],
-        maquinaId: newMaquina.id,
-      });
+    if (data.empleados != null) {
+      for (let i = 0; i < data.empleados.length; i++) {
+        await models.Empleado_maquina.create({
+          ...data.empleados[i],
+          maquinaId: newMaquina.id,
+        });
+      }
     }
     return newMaquina;
   }
@@ -36,11 +38,13 @@ class MaquinaController {
     for (let i = 0; i < empleados.length; i++) {
       await empleados[i].destroy();
     }
-    for (let i = 0; i < data.empleados.length; i++) {
-      await models.Empleado_maquina.create({
-        ...data.empleados[i],
-        maquinaId: Maquina.id,
-      });
+    if (data.empleados != null) {
+      for (let i = 0; i < data.empleados.length; i++) {
+        await models.Empleado_maquina.create({
+          ...data.empleados[i],
+          maquinaId: Maquina.id,
+        });
+      }
     }
     return MaquinaUpdated;
   }

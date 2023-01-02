@@ -14,11 +14,13 @@ class RecetaController {
       ...data,
       createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
     });
-    for (let i = 0; i < data.ingredientes.length; i++) {
-      await models.Ingredientes.create({
-        ...data.ingredientes[i],
-        recetaId: newReceta.id,
-      });
+    if (data.ingredientes != null) {
+      for (let i = 0; i < data.ingredientes.length; i++) {
+        await models.Ingredientes.create({
+          ...data.ingredientes[i],
+          recetaId: newReceta.id,
+        });
+      }
     }
     return newReceta;
   }
@@ -35,11 +37,13 @@ class RecetaController {
     for (let i = 0; i < ingredientes.length; i++) {
       await ingredientes[i].destroy();
     }
-    for (let i = 0; i < data.ingredientes.length; i++) {
-      await models.Ingredientes.create({
-        ...data.ingredientes[i],
-        recetaId: id,
-      });
+    if (data.ingredientes != null) {
+      for (let i = 0; i < data.ingredientes.length; i++) {
+        await models.Ingredientes.create({
+          ...data.ingredientes[i],
+          recetaId: id,
+        });
+      }
     }
     return RecetaUpdated;
   }

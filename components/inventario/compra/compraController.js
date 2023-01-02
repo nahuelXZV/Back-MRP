@@ -9,14 +9,15 @@ class CompraController {
       ...data,
       createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
     });
-
-    for (let i = 0; i < data.materiales.length; i++) {
-      const material = data.materiales[i];
-      await models.Detalle_compra.create({
-        ...material,
-        notaCompraId: Compra.id,
-        createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
-      });
+    if (data.materiales != null) {
+      for (let i = 0; i < data.materiales.length; i++) {
+        const material = data.materiales[i];
+        await models.Detalle_compra.create({
+          ...material,
+          notaCompraId: Compra.id,
+          createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
+        });
+      }
     }
 
     return Compra;
@@ -39,13 +40,15 @@ class CompraController {
       const detalle = detalles[i];
       await detalle.destroy();
     }
-    for (let i = 0; i < data.materiales.length; i++) {
-      const material = data.materiales[i];
-      await models.Detalle_compra.create({
-        ...material,
-        notaCompraId: Compra.id,
-        createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
-      });
+    if (data.materiales != null) {
+      for (let i = 0; i < data.materiales.length; i++) {
+        const material = data.materiales[i];
+        await models.Detalle_compra.create({
+          ...material,
+          notaCompraId: Compra.id,
+          createdAt: new Date().toLocaleString('es-ES', { timeZone: 'America/La_Paz' })
+        });
+      }
     }
     return CompraUpdated;
   }
