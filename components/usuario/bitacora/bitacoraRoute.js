@@ -9,7 +9,7 @@ const controller = new bitacoraController();
 
 router.get('/',
   passport.authenticate('jwt', { session: false }), // Middleware de autenticación
-  checkRoles('administrador'),
+  checkRoles('administrador','user'),
   async (req, res, next) => {
     await controller.getAll().then((data) => {
       response.success(req, res, data, 200);

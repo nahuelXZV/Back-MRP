@@ -12,7 +12,7 @@ const controller = new clienteController();
 
 router.get('/',
   passport.authenticate('jwt', { session: false }), // Middleware de autenticación
-  checkRoles('administrador'),
+  checkRoles('administrador', 'ventas'),
   async (req, res, next) => {
     await controller.getAll().then((data) => {
       response.success(req, res, data, 200);
@@ -24,7 +24,7 @@ router.get('/',
 
 router.get('/:id',
   passport.authenticate('jwt', { session: false }), // Middleware de autenticación
-  checkRoles('administrador'),
+  checkRoles('administrador', 'ventas'),
   validatorHandler(getSchema, 'params'), // Middleware de validación
   async (req, res, next) => {
     const { id } = req.params;
@@ -39,7 +39,7 @@ router.get('/:id',
 
 router.post('/',
   passport.authenticate('jwt', { session: false }), // Middleware de autenticación
-  checkRoles('administrador'),
+  checkRoles('administrador', 'ventas'),
   validatorHandler(addSchema, 'body'),
   async (req, res, next) => {
     await controller.add(req.body).then((data) => {
@@ -53,7 +53,7 @@ router.post('/',
 
 router.put('/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('administrador'),
+  checkRoles('administrador', 'ventas'),
   validatorHandler(getSchema, 'params'),
   validatorHandler(editSchema, 'body'),
   async (req, res, next) => {
@@ -71,7 +71,7 @@ router.put('/:id',
 
 router.delete('/:id',
   passport.authenticate('jwt', { session: false }),
-  checkRoles('administrador'),
+  checkRoles('administrador', 'ventas'),
   validatorHandler(getSchema, 'params'),
   async (req, res, next) => {
     const { id } = req.params;
