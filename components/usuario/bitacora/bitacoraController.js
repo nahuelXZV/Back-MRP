@@ -5,7 +5,9 @@ class CargoController {
   constructor() { }
 
   async getAll() {
-    const bitacoras = await models.Bitacora.findAll();
+    const bitacoras = await models.Bitacora.findAll({
+      include: ['user']
+    });
     return bitacoras;
   }
 }
